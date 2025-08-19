@@ -1,0 +1,66 @@
+<div class="theme-dashboard-background">
+    <div class="dashboard-container">
+        <h1>Dashboard de Países</h1>
+        <% if (paises && paises.length > 0) { %>
+            <table class="countries-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Capital</th>
+                        <th>Población</th>
+                        <th>Área (km²)</th>
+                        <th>Gini (Año)</th>
+                        <th>Creador</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% 
+                        let totalPopulation = 0;
+                        let totalArea = 0;
+                        let giniSum = 0;
+                        let giniCount = 0;
+                    %>
+                    <% paises.forEach(function(pais) { 
+                        totalPopulation += pais.population || 0;
+                        totalArea += pais.area || 0;
+                        if (pais.gini && Object.values(pais.gini)[0] !== null) {
+                            giniSum += Object.values(pais.gini)[0];
+                            giniCount++;
+                        }
+                    %>
+                    <tr>
+                        <td><%= pais.nombre || 'N/A' %></td>
+                        <td><%= pais.capital || 'N/A' %></td>
+                        <td><%= pais.population ? pais.population.toLocaleString() : 'N/A' %></td>
+                        <td><%= pais.area ? pais.area.toLocaleString() : 'N/A' %></td>
+                        <td>
+                            <% if (pais.gini) { %>
+                                <%= Object.values(pais.gini)[0] %> (<%= Object.keys(pais.gini)[0] %>)
+                            <% } else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                        <td><%= pais.creador || 'N/A' %></td>
+                        <td class="table-actions">
+                            <a href="/api/formEditarPais/<%= pais._id %>" class="btn btn-primary table-btn">Editar</a>
+                            <a href="/api/confirmarEliminar/<%= pais._id %>" class="btn btn-delete table-btn">Eliminar</a>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><strong>Totales y Promedios</strong></td>
+                        <td><strong><%= totalPopulation.toLocaleString() %></strong></td>
+                        <td><strong><%= totalArea.toLocaleString() %> km²</strong></td>
+                        <td><strong><%= giniCount > 0 ? (giniSum / giniCount).toFixed(2) : 'N/A' %></strong></td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        <% } else { %>
+            <p class="no-countries">No se encontraron países en la base de datos.</p>
+        <% } %>
+    </div>
+</div>

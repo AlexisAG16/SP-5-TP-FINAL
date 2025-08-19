@@ -1,0 +1,18 @@
+    <div class="confirmation-container">
+        <h1>¿Confirmar Eliminación?</h1>
+        <% if (info) { %>
+        <p>Deseas eliminar a <%= info.nombre %> de la base de datos.</p>
+        <p>¿Seguro de que quieres continuar?</p>
+
+        <div class="confirmation-buttons">
+            <form action="/api/EliminarPais/<%= info._id %>?_method=DELETE" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger confirm-btn">Sí, Eliminar</button>
+            </form>
+
+            <a href="/api/paises" class="btn btn-secondary cancel-btn">Cancelar</a>
+        </div>
+        <% } else { %>
+            <p class="message error">No se pudo encontrar el país para confirmar la eliminación.</p>
+            <a href="/api/paises" class="btn btn-secondary">Volver a la lista de países</a>
+        <% } %>
+    </div>

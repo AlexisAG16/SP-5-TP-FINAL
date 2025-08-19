@@ -1,0 +1,139 @@
+    <div class="form-container">
+        <!-- Se agrega el atributo 'novalidate' para deshabilitar la validación HTML5 del navegador -->
+        <form id="editCountryForm" action="/api/ActualizarPais/<%= pais._id %>?_method=PUT" method="POST" novalidate>
+            <h1>Editar País: <%= pais.nombre %></h1>
+            <!-- Contenedor para mostrar los mensajes de error -->
+            <div id="form-errors" class="form-errors-container" style="color: red; margin-bottom: 15px;"></div>
+
+            <fieldset>
+                <legend>Datos del País</legend>
+                <div class="form-group">
+                    <label for="nombre">Nombre del País:</label>
+                    <input type="text" id="nombre" name="nombre" value="<%= pais.nombre %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombreOficial">Nombre Oficial:</label>
+                    <input type="text" id="nombreOficial" name="nombreOficial" value="<%= pais.nombreOficial %>" required minlength="3" maxlength="90">
+                </div>
+                <div class="form-group">
+                    <label for="capital">Capital:</label>
+                    <input type="text" id="capital" name="capital" value="<%= pais.capital %>" required minlength="2" maxlength="90">
+                </div>
+                <div class="form-group">
+                    <label for="population">Población:</label>
+                    <input type="number" id="population" name="population" value="<%= pais.population %>" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="area">Área (km²):</label>
+                    <input type="number" id="area" name="area" value="<%= pais.area %>" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="borders">Países Fronterizos (separados por coma):</label>
+                    <input type="text" id="borders" name="borders" value="<%= pais.borders.join(', ') %>">
+                </div>
+                <!-- Campo para el índice Gini (ahora es obligatorio) -->
+                <div class="form-group">
+                    <label for="giniIndex">Índice Gini:</label>
+                    <input type="number" step="0.1" id="giniIndex" name="giniIndex" value="<%= pais.gini ? Object.values(pais.gini)[0] : '' %>" required min="0" max="100">
+                </div>
+                <!-- Campo oculto para el año Gini -->
+                <input type="hidden" id="giniYear" name="giniYear" value="<%= pais.gini ? Object.keys(pais.gini)[0] : new Date().getFullYear() %>">
+                <div class="form-group">
+                    <label for="timezones">Husos Horarios (separados por coma):</label>
+                    <input type="text" id="timezones" name="timezones" value="<%= pais.timezones.join(', ') %>" placeholder="Ej: GMT-3, UTC-5">
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-update">Actualizar País</button>
+                <a href="/api/paises" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('editCountryForm');
+        const errorContainer = document.getElementById('form-errors');
+        const giniYearInput = document.getElementById('giniYear');
+        if (!giniYearInput.value) {
+            giniYearInput.value = new Date().getFullYear();
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            errorContainer.innerHTML = '';
+            const errors = [];
+
+            const nombre = document.getElementById('nombre').value.trim();
+            const nombreOficial = document.getElementById('nombreOficial').value.trim();
+            const capital = document.getElementById('capital').value.trim();
+            const population = document.getElementById('population').value.trim();
+            const area = document.getElementById('area').value.trim();
+            const borders = document.getElementById('borders').value.trim();
+            const giniIndex = document.getElementById('giniIndex').value.trim();
+            const giniYear = giniYearInput.value.trim();
+            const timezones = document.getElementById('timezones').value.trim();
+
+            // Validación de los campos obligatorios
+            if (nombre === '') { errors.push('El nombre es requerido.'); }
+            if (nombreOficial === '') { errors.push('El nombre oficial es requerido.'); }
+            if (capital === '') { errors.push('La capital es requerida.'); }
+            if (population === '') { errors.push('La población es requerida.'); }
+            if (area === '') { errors.push('El área es requerida.'); }
+            if (giniIndex === '') { errors.push('El índice Gini es requerido.'); }
+            if (giniYear === '') { errors.push('El año del Gini es requerido.'); }
+
+            // Validación de longitud para los campos de texto
+            if (nombreOficial.length < 3 || nombreOficial.length > 90) { errors.push('El nombre oficial debe tener entre 3 y 90 caracteres.'); }
+            if (capital.length < 2 || capital.length > 90) { errors.push('La capital debe tener entre 2 y 90 caracteres.'); }
+
+            // Validación de números (población y área)
+            if (population !== '' && parseFloat(population) < 0) { errors.push('La población debe ser un número positivo.'); }
+            if (area !== '' && parseFloat(area) < 0) { errors.push('El área debe ser un número positivo.'); }
+
+            // Validación para los códigos de países fronterizos
+            if (borders !== '') {
+                const borderArray = borders.split(',').map(b => b.trim()).filter(b => b !== '');
+                const invalidBorders = borderArray.filter(border => !/^[A-Z]{3}$/.test(border));
+                if (invalidBorders.length > 0) {
+                    errors.push('Cada país fronterizo debe ser un código de 3 letras mayúsculas.');
+                }
+            }
+
+            // Validación de Gini
+            if (giniIndex !== '') {
+                const giniVal = parseFloat(giniIndex);
+                if (isNaN(giniVal) || giniVal < 0 || giniVal > 100) {
+                    errors.push('El valor de Gini debe ser un número entre 0 y 100.');
+                }
+            }
+
+            // Validación de Husos Horarios (opcional, pero si existe, valida que no esté vacío)
+            if (timezones !== '') {
+                const timezoneArray = timezones.split(',').map(t => t.trim()).filter(t => t !== '');
+                if (timezoneArray.length === 0) {
+                    errors.push('Si se proporcionan husos horarios, debe haber al menos uno.');
+                }
+            }
+
+            if (errors.length > 0) {
+                const errorList = document.createElement('ul');
+                errors.forEach(error => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = error;
+                    errorList.appendChild(listItem);
+                });
+                errorContainer.appendChild(errorList);
+                errorContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // Agregar el campo creador al formulario antes de enviarlo
+                const creadorInput = document.createElement('input');
+                creadorInput.type = 'hidden';
+                creadorInput.name = 'creador';
+                creadorInput.value = 'alexis';
+                form.appendChild(creadorInput);
+
+                form.submit();
+            }
+        });
+    });
+</script>

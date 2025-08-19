@@ -1,0 +1,109 @@
+    <div class="form-container">
+        <h1>Buscar País por Nombre</h1>
+        <div class="form-section">
+            <p>Ingresa el nombre o parte del nombre del país para modificarlo o eliminarlo. La búsqueda se realizará solo si el creador es "alexis".</p>
+            <form id="countrySearchForm" class="search-form">
+                <label for="countryName">Nombre del País:</label>
+                <input type="text" id="countryNameInput" name="nombre" placeholder="Ej: Argentina" required>
+                <button type="button" id="searchButton" class="btn btn-primary">Buscar</button>
+            </form>
+            <!-- El contenedor de resultados se mantiene, pero ahora se llenará dinámicamente -->
+            <div id="result-display"></div>
+        </div>
+    </div>
+
+<!-- Script de JavaScript para manejar la búsqueda y los botones -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const countryNameInput = document.getElementById('countryNameInput');
+        const searchButton = document.getElementById('searchButton');
+        const resultDisplay = document.getElementById('result-display');
+
+        /**
+         * Maneja el clic en los botones de "Modificar" o "Eliminar".
+         * Se usa una función de delegación de eventos para manejar los botones
+         * que se crean dinámicamente.
+         */
+        resultDisplay.addEventListener('click', (event) => {
+            const button = event.target.closest('button');
+            if (!button) return;
+
+            const countryId = button.dataset.id;
+            if (!countryId) {
+                console.error("ID del país no disponible.");
+                return;
+            }
+
+            if (button.classList.contains('btn-update')) {
+                // Redirige al formulario de edición con el ID del país
+                window.location.href = `/api/formEditarPais/${countryId}`;
+            } else if (button.classList.contains('btn-delete')) {
+                // Redirige a la página de confirmación de eliminación
+                window.location.href = `/api/confirmarEliminar/${countryId}`;
+            }
+        });
+
+        /**
+         * Muestra los resultados de la búsqueda.
+         * Ahora acepta un array de países y genera un bloque HTML para cada uno.
+         * @param {Array} countries - Un array de objetos de países.
+         */
+        function showCountryResults(countries) {
+            resultDisplay.innerHTML = ''; // Limpia resultados anteriores
+
+            if (countries.length === 0) {
+                resultDisplay.innerHTML = `<p style="color: red;">No se encontraron países con ese nombre.</p>`;
+                return;
+            }
+
+            // Mapea el array de países a un array de strings HTML y los une
+            const resultsHtml = countries.map(country => `
+                <div class="country-result-item">
+                    <h3>Nombre: ${country.nombre || ''}</h3>
+                    <p><strong>ID:</strong> ${country._id}</p>
+                    <div class="button-group">
+                        <!-- Los botones ahora tienen un data-id para identificar al país -->
+                        <button type="button" class="btn-update" data-id="${country._id}">Modificar</button>
+                        <button type="button" class="btn-delete" data-id="${country._id}">Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+
+            resultDisplay.innerHTML = `
+                <br>
+                <h3>Países encontrados:</h3>
+                ${resultsHtml}
+            `;
+        }
+
+        // Evento de clic en el botón de búsqueda
+        searchButton.addEventListener('click', async () => {
+            const countryName = countryNameInput.value.trim();
+            if (!countryName) {
+                resultDisplay.innerHTML = '<p style="color: red;">Por favor, ingresa un nombre o parte del nombre.</p>';
+                return;
+            }
+
+            try {
+                // Llama al endpoint de la API con el nombre del país Y el creador "alexis"
+                const response = await fetch(`/api/buscarPais?nombre=${encodeURIComponent(countryName)}&creador=alexis`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data && data.paises) { // Esperamos que el servidor devuelva 'paises' (plural)
+                        showCountryResults(data.paises);
+                    } else {
+                        // En caso de que el servidor no devuelva el formato esperado
+                        resultDisplay.innerHTML = `<p style="color: red;">No se encontraron datos o el formato es incorrecto.</p>`;
+                        console.error("Respuesta inesperada del servidor:", data);
+                    }
+                } else {
+                    resultDisplay.innerHTML = `<p style="color: red;">Error: ${data.message || 'Error desconocido del servidor'}</p>`;
+                }
+            } catch (error) {
+                console.error('Error al buscar país:', error);
+                resultDisplay.innerHTML = '<p style="color: red;">Ocurrió un error al intentar buscar el país.</p>';
+            }
+        });
+    });
+</script>

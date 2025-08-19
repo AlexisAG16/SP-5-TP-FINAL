@@ -1,0 +1,430 @@
+/* Estilos para el Sticky Footer (CSS Puro) */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    
+    /* Estilos para la imagen de fondo en el cuerpo */
+    background-image: url('/images/latam.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #e9ecef;
+}
+
+main {
+    flex-grow: 1;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #2c3e50; /* Color azul oscuro para el pie de página */
+    color: white;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Fuentes y estilos globales */
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #3498db;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2980b9;
+}
+
+/* Contenedores generales */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.theme-info-background > .container {
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.theme-info-background > .form-container,
+.theme-info-background > .confirmation-container {
+    flex-shrink: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.hero-section {
+    text-align: center;
+}
+
+.hero-section p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.hero-actions {
+    margin-top: 30px;
+}
+
+.btn, .btn-primary, .btn-success, .btn-delete, .btn-update, .btn-danger {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #2ecc71;
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* Color rojo para el botón de eliminar */
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #e74c3c; /* Color rojo para el botón de confirmación de eliminación */
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+    transform: translateY(-2px);
+}
+
+/* Estilos de formulario */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Estilos para el dashboard */
+.theme-dashboard-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Permite desplazamiento horizontal en pantallas pequeñas */
+}
+
+.no-countries {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+}
+
+/* --- Estilos para la tabla del dashboard --- */
+.countries-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto; /* Permite que las columnas se ajusten al contenido */
+}
+
+.countries-table thead, .countries-table tfoot {
+    background-color: #2c3e50; /* Azul oscuro para encabezado y pie de página */
+    color: white;
+}
+
+.countries-table th, .countries-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.countries-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.countries-table tbody tr:hover {
+    background-color: #e9e9e9;
+}
+
+.table-actions {
+    white-space: nowrap; /* Evita que los botones se rompan en varias líneas */
+}
+
+.table-actions .btn {
+    padding: 8px 12px; /* Botones más pequeños dentro de la tabla */
+    font-size: 0.9em;
+}
+
+/* Estilos para los mensajes de éxito/error */
+.message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* --- Nuevos estilos para el formulario de búsqueda (modificar/eliminar) --- */
+.form-section {
+    margin-top: 20px;
+}
+
+.form-section p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Estilo para el grupo de botones */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Botón de Modificar - ahora con los mismos estilos que .btn-primary */
+.btn-update {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #3498db; /* Azul */
+}
+
+.btn-update:hover {
+    background-color: #2980b9; /* Un tono más oscuro de azul */
+    transform: translateY(-2px);
+}
+
+/* Responsive design para la cuadrícula (ahora irrelevante para el dashboard, pero lo mantenemos para otros elementos) */
+@media (min-width: 768px) {
+    .countries-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .countries-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Estilos para el menú de navegación */
+.navbar {
+    background-color: #2c3e50; /* Color azul oscuro para la barra de navegación */
+    color: white;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #34495e;
+    border-radius: 5px;
+}
+
+/* Estilos para el logo dentro de la navbar */
+.navbar .logo {
+    height: 40px;
+    width: auto;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Estilos para el footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #2c3e50;
+    color: white;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Estilos para las páginas de contacto y acerca de */
+.contact-section, .about-section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 40px;
+}
+
+.confirmation-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-container h1 {
+    color: #e74c3c;
+}
+
+.confirmation-container p {
+    margin: 20px 0;
+    font-size: 1.1em;
+}
+
+.confirmation-buttons {
+    margin-top: 30px;
+}
+
+/* Estilos para la búsqueda por nombre */
+.form-section {
+    margin-top: 20px;
+}
+
+.form-section p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.country-result-item {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
