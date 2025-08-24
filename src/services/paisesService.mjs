@@ -13,17 +13,6 @@ export async function obtenerTodosLosPaises()
     return RepoObtenerTodos;
 }
 
-/*export async function buscarSuperheroesPorAtributo(atributo,valor)
-{
-    const atributoVal = await superheroesRepository.buscarPorAtributo(atributo,valor);
-    return atributoVal;
-}
-
-export async function obtenerSuperheroesMayoresDe30()
-{
-    return await superheroesRepository.obtenerMayoresDe30();
-}*/
-
 export async function obtenerPaisPorNombre(nombre) {
     return await paisesRepository.obtenerPorNombre(nombre);
 }

@@ -10,6 +10,8 @@
                         <th>Población</th>
                         <th>Área (km²)</th>
                         <th>Gini (Año)</th>
+                        <th>Países Fronterizos</th>
+                        <th>Husos Horarios</th>
                         <th>Creador</th>
                         <th>Acciones</th>
                     </tr>
@@ -37,6 +39,20 @@
                         <td>
                             <% if (pais.gini) { %>
                                 <%= Object.values(pais.gini)[0] %> (<%= Object.keys(pais.gini)[0] %>)
+                            <% } else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (pais.borders && pais.borders.length > 0) { %>
+                                <%= pais.borders.join(', ') %>
+                            <% } else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (pais.timezones && pais.timezones.length > 0) { %>
+                                <%= pais.timezones.join(', ') %>
                             <% } else { %>
                                 N/A
                             <% } %>

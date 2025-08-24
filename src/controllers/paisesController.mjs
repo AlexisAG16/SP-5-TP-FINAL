@@ -32,6 +32,7 @@ export async function obtenerTodosLosPaisesController(req, res) {
     }
 }
 
+
 export async function obtenerPaisPorIdController(req, res) {
     try {
         const { id } = req.params;
@@ -64,7 +65,6 @@ export async function obtenerPaisPorIdController(req, res) {
         res.status(500).send({ mensaje: 'Error al obtener el país', error: error.message });
     }
 }
-
 
 // ----------------------------------------------------
 // CONTROLADORES DE FORMULARIOS (Siempre HTML)
@@ -332,58 +332,3 @@ export async function eliminarPaisController(req, res) {
         res.status(500).send({ mensaje: 'Error al eliminar el país.', error: error.message });
     }
 }
-
-
-/*
-export async function buscarSuperheroesPorAtributoController(req, res) {
-    try {
-        const { atributo, valor } = req.params;
-        const superheroes = await buscarSuperheroesPorAtributo(atributo, valor);
-
-        if (superheroes.length === 0) {
-            if (req.accepts('json')) {
-                return res.status(404).json({ mensaje: 'No se encontraron superhéroes con ese atributo.' });
-            }
-            return res.status(404).send('No se encontraron superhéroes con ese atributo.');
-        }
-
-        if (req.accepts('html')) {
-            // Para HTML, renderiza el dashboard con los resultados filtrados
-            res.render('dashboard', { superheroes });
-        } else if (req.accepts('json')) {
-            // Si el cliente prefiere JSON, envía los datos.
-            res.json(superheroes);
-        } else {
-            res.status(406).send('Not Acceptable: Solo se soportan respuestas HTML o JSON.');
-        }
-    } catch (error) {
-        console.error('Error en buscarSuperheroesPorAtributoController:', error);
-        res.status(500).send({ mensaje: 'Error al buscar los superhéroes', error: error.message });
-    }
-}
-
-export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
-    try {
-        const superheroes = await obtenerSuperheroesMayoresDe30();
-
-        if (superheroes.length === 0) {
-            if (req.accepts('json')) {
-                return res.status(404).json({ mensaje: 'No se encontraron superhéroes mayores de 30 años.' });
-            }
-            return res.status(404).send('No se encontraron superhéroes mayores de 30 años.');
-        }
-
-        if (req.accepts('html')) {
-            // Renderiza el dashboard con los resultados filtrados
-            res.render('dashboard', { superheroes });
-        } else if (req.accepts('json')) {
-            // Si el cliente prefiere JSON, envía los datos.
-            res.json(superheroes);
-        } else {
-            res.status(406).send('Not Acceptable: Solo se soportan respuestas HTML o JSON.');
-        }
-    } catch (error) {
-        console.error('Error en obtenerSuperheroesMayoresDe30Controller:', error);
-        res.status(500).send({ mensaje: 'Error al obtener superhéroes mayores de 30', error: error.message });
-    }
-}*/

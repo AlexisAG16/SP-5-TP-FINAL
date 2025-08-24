@@ -14,13 +14,13 @@ body {
     color: #333;
     line-height: 1.6;
     
-    /* Estilos para la imagen de fondo en el cuerpo */
+    /*
     background-image: url('/images/latam.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
-    background-color: #e9ecef;
+    background-attachment: fixed;*/
+    background-color: #9fc8f2;
 }
 
 main {
@@ -372,6 +372,28 @@ footer {
     width: 100%;
 }
 
+
+/* Nuevos estilos para los iconos de redes sociales */
+.social-footer {
+    padding: 20px;
+}
+
+.social-icons {
+    margin-bottom: 10px; /* Espacio entre los iconos y el texto del copyright */
+}
+
+.social-icons img {
+    width: 40px; /* Tamaño de las imágenes */
+    height: 40px;
+    margin: 0 10px; /* Espacio entre las imágenes */
+    transition: transform 0.3s ease; /* Transición para el efecto hover */
+}
+
+.social-icons a:hover img {
+    transform: scale(1.2); /* Efecto de crecimiento al pasar el cursor */
+}
+
+
 /* Estilos para las páginas de contacto y acerca de */
 .contact-section, .about-section {
     max-width: 800px;
@@ -427,4 +449,3 @@ footer {
     gap: 10px;
     margin-top: 10px;
 }
-
