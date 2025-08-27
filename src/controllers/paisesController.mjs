@@ -174,8 +174,7 @@ export async function agregarPaisController(req, res) {
         } = req.body;
 
         // Creamos el objeto final que será enviado al servicio.
-        // Incluimos todos los datos y nos aseguramos de que los arrays
-        // estén en el formato correcto.
+        // Incluimos todos los datos y nos aseguramos de que los arrays esten en el formato correcto
         const nuevoPaisData = {
             nombre,
             nombreOficial,
@@ -187,39 +186,13 @@ export async function agregarPaisController(req, res) {
             creador
         };
 
-        // Solo agregamos el campo 'gini' si ambos valores (indice y año) están presentes.
+        // Solo se agrega 'gini' si ambos valores (indice y año) están presentes.
         if (giniIndex && giniYear) {
             nuevoPaisData.gini = {
-                // Usamos una propiedad computada con el año como clave.
+                // Usamos una propiedad con el año como clave.
                 [giniYear]: parseFloat(giniIndex)
             };
         }
-
-        /*
-        const body = {
-            ...req.body,
-            borders: req.body.borders || [],
-            timezones: req.body.timezones || [],
-        };
-                
-        const nuevoPaisData = {
-            nombre,
-            nombreOficial,
-            capital,
-            population,
-            area,
-            borders,
-            timezones,
-            creador
-        };
-
-        // Solo agrega el campo 'gini' si ambos valores están presentes
-        if (giniIndex && giniYear) {
-            nuevoPaisData.gini = {
-                [giniYear]: parseFloat(giniIndex)
-            };
-        } */
-
         const nuevoPais = await crearPais(nuevoPaisData);
 
         if (req.accepts('html')) {

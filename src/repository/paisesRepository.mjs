@@ -21,38 +21,8 @@ class paisesRepository extends IRepository
         return paisesEncontrados;
     }
 
-    /*async buscarPorAtributo(atributo, valor) 
-    {
-    const schemaType = superHero.schema.paths[atributo].instance;
-    let query;
-
-    if (schemaType === 'Number') {
-    query = { [atributo]: parseInt(valor) };
-    if (isNaN(query[atributo])) {
-      return [];
-    }
-    } else {
-    query = { [atributo]: { $regex: valor, $options: 'i' } };
-    }
-
-    const atributoValor = await superHero.find(query);
-    return atributoValor;
-}
-
-    async obtenerMayoresDe30() 
-    {
-        const superheroeEncontrado = await superHero.find
-        ({
-        edad: { $gt: 30 },
-        planetaOrigen: 'Tierra',
-        $expr: { $gte: [{ $size: "$poderes" }, 2]}
-        // poderes: { $exists: true, $size: { $gte: 2 }},
-        });
-        return superheroeEncontrado;
-    }*/
-
 async obtenerPorNombre(nombre) {
-    // Usamos una expresión regular para una búsqueda flexible e insensible a mayúsculas
+    // Se usa una expresión regular para una búsqueda flexible e insensible a mayúsculas
     // La opción 'i' es para case-insensitive
     const query = { nombre: { $regex: new RegExp(nombre, 'i') } };
 
